@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://bf8grg5c3t0v3"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_uh7gm"]
+script/source = "using Godot;
+using System;
+
+public partial class Hurtbox : Area2D
+{
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		//Get the LayerAndMasks singleton
+		var layersAndMasks = GetNode<LayersAndMasks>(\"/root/LayersAndMasks\");
+		//Set the collision layer to 0 = no layer
+		CollisionLayer = 0;
+		//Get the hitbox collision layer by name
+		CollisionMask = layersAndMasks.GetCollisionLayerByName(\"Hitbox\");
+		//Create a signal for area_entered
+		Callable callable = new Callable(this, MethodName.OnAreaEntered);
+		Connect(\"area_entered\", callable);
+		
+	}
+
+	private void OnAreaEntered(Hitbox hitbox)
+	{
+		//if the hitbox is not null
+		if (hitbox != null)
+		{
+			GD.Print(\"Hitbox \" + hitbox);
+			//Typecast the onwer of the hitbox to ITakeDamage
+			ITakeDamage ownerTakeDamage = (ITakeDamage)Owner;
+			//Call the TakeDamage method and pass in the damage and AttackFromVector values from the hitbox
+			ownerTakeDamage.TakeDamage(hitbox.Damage, hitbox.AttackFromVector);
+		}
+		
+		GD.Print(\"Hitbox \" + hitbox);
+	}
+}
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6vqcy"]
+radius = 32.5576
+
+[node name="WorldEdgeBox" type="Area2D"]
+collision_mask = 8
+script = SubResource("CSharpScript_uh7gm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6vqcy")

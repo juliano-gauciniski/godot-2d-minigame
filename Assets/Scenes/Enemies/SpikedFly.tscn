@@ -1,0 +1,167 @@
+[gd_scene load_steps=27 format=3 uid="uid://bqymiw2hjojw"]
+
+[ext_resource type="Texture2D" uid="uid://ccucaq3ekvsks" path="res://Assets/Textures/Fly/skeleton-fly_07.png" id="1"]
+[ext_resource type="Script" path="res://Assets/Scenes/Enemies/SpikedFly.cs" id="1_82rh0"]
+[ext_resource type="Texture2D" uid="uid://tc101q0m2qv4" path="res://Assets/Textures/Fly/skeleton-fly_06.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://csd4it57g6q67" path="res://Assets/Textures/Fly/skeleton-fly_01.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://rynl2vimq1qg" path="res://Assets/Textures/Fly/skeleton-fly_10.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dau0b6n54pv3w" path="res://Assets/Textures/Fly/skeleton-fly_08.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://bemserfp5f65u" path="res://Assets/Textures/Fly/skeleton-fly_09.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://bnd4yw1roosfh" path="res://Assets/Textures/Fly/skeleton-fly_05.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://1arrtx4v33ll" path="res://Assets/Textures/Fly/skeleton-fly_03.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://dk4ibgf82iyit" path="res://Assets/Textures/Fly/skeleton-fly_02.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://udkt7b1j7dwe" path="res://Assets/Textures/Fly/skeleton-fly_00.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://rbhvd0fd8pux" path="res://Assets/Textures/Fly/skeleton-fly_04.png" id="11"]
+[ext_resource type="Script" path="res://Assets/Shared/Hurtbox/Hurtbox.cs" id="13_jpds1"]
+[ext_resource type="Texture2D" uid="uid://rjgexlqw1b6m" path="res://Assets/Textures/CloudDissolveEffect.png" id="14"]
+[ext_resource type="FontFile" uid="uid://br4dmsuthj0v6" path="res://Fonts/Some Time Later.otf" id="14_w7gj3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_elrdg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ca4rh"]
+atlas = ExtResource("14")
+region = Rect2(0, 0, 64, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wj7pb"]
+atlas = ExtResource("14")
+region = Rect2(64, 0, 64, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_los4u"]
+atlas = ExtResource("14")
+region = Rect2(128, 0, 64, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rxxc"]
+atlas = ExtResource("14")
+region = Rect2(192, 0, 64, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsfkt"]
+atlas = ExtResource("14")
+region = Rect2(256, 0, 64, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_745vb"]
+atlas = ExtResource("14")
+region = Rect2(256, 0, 64, 49)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iftc5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ca4rh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wj7pb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_los4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rxxc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsfkt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_745vb")
+}],
+"loop": false,
+"name": &"Dissolve",
+"speed": 15.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g7bwh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4")
+}],
+"loop": true,
+"name": &"Fly",
+"speed": 22.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vpcp2"]
+font = ExtResource("14_w7gj3")
+font_size = 50
+font_color = Color(0.784314, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6vqcy"]
+
+[node name="SpikeFly" type="CharacterBody2D"]
+script = ExtResource("1_82rh0")
+Health = 5.0
+SpikedFlySpeed = 350.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_elrdg")
+
+[node name="CloudDeathEffect" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_iftc5")
+animation = &"Dissolve"
+frame = 5
+frame_progress = 1.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_g7bwh")
+animation = &"Fly"
+autoplay = "Fly"
+frame_progress = 0.110564
+
+[node name="HealthPoints" type="Sprite2D" parent="."]
+position = Vector2(-76, -163)
+
+[node name="HealthLabel" type="Label" parent="HealthPoints"]
+offset_right = 154.0
+offset_bottom = 72.0
+text = "HP: 10"
+label_settings = SubResource("LabelSettings_vpcp2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TakeDamageTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("13_jpds1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-14, 8)
+scale = Vector2(9, 9)
+shape = SubResource("CircleShape2D_6vqcy")
+
+[connection signal="timeout" from="TakeDamageTimer" to="." method="OnTakeDamageTimerTimeout"]

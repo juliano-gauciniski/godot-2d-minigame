@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://dejb5yin0ih6n"]
+
+[ext_resource type="Texture2D" uid="uid://58o1nnmtwt0q" path="res://Assets/Textures/Sword/SwordTrail.png" id="1_ar0y2"]
+[ext_resource type="Script" path="res://Assets/Scenes/Items/Sword.cs" id="1_hgeje"]
+[ext_resource type="Texture2D" uid="uid://cmdr3c68djg6p" path="res://Assets/Textures/Sword/Sword.png" id="2_n6e7m"]
+[ext_resource type="Script" path="res://Assets/Shared/Hitbox/Hitbox.cs" id="3_0chfy"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_88fys"]
+radius = 44.0
+height = 584.0
+
+[sub_resource type="Animation" id="Animation_wh5ud"]
+resource_name = "SwordAttack"
+length = 0.45
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14, 0.23, 0.35, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.698132, 1.91986, -0.349066, 3.48787e-16]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Parts/SwordTrail:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.17, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Parts/Hitbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.17, 0.24),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lq6ba"]
+_data = {
+"SwordAttack": SubResource("Animation_wh5ud")
+}
+
+[node name="Sword" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_hgeje")
+
+[node name="Parts" type="Node2D" parent="."]
+position = Vector2(0, -364)
+
+[node name="SwordTrail" type="Sprite2D" parent="Parts"]
+visible = false
+position = Vector2(-302, -86)
+rotation = -1.62316
+texture = ExtResource("1_ar0y2")
+
+[node name="SwordSprite" type="Sprite2D" parent="Parts"]
+texture = ExtResource("2_n6e7m")
+
+[node name="Hitbox" type="Area2D" parent="Parts"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_0chfy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Parts/Hitbox"]
+position = Vector2(0, -110)
+shape = SubResource("CapsuleShape2D_88fys")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lq6ba")
+}

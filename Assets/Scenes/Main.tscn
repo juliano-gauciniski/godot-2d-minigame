@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://xhet56ascdij"]
+
+[ext_resource type="Script" path="res://Assets/Scenes/Main.cs" id="1_4l1mb"]
+[ext_resource type="PackedScene" uid="uid://dejb5yin0ih6n" path="res://Assets/Scenes/Items/Sword.tscn" id="1_341ji"]
+[ext_resource type="Texture2D" uid="uid://bxcr8y8kqxge5" path="res://Assets/Textures/SunnyCloudBackground.png" id="1_w2s7d"]
+[ext_resource type="FontFile" uid="uid://br4dmsuthj0v6" path="res://Fonts/Some Time Later.otf" id="4_563m0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mmqnl"]
+font = ExtResource("4_563m0")
+font_size = 64
+font_color = Color(0.866667, 0.788235, 0.0862745, 1)
+shadow_color = Color(0.980392, 0, 0, 0.866667)
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yx580"]
+size = Vector2(5.05, 59.1)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_4l1mb")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_w2s7d")
+centered = false
+
+[node name="Sword" parent="." instance=ExtResource("1_341ji")]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Score" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 24.0
+offset_right = 261.0
+offset_bottom = 126.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_mmqnl")
+
+[node name="WorldEdgeBox" type="Area2D" parent="."]
+position = Vector2(2.08165e-12, 400)
+scale = Vector2(20, 20)
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldEdgeBox"]
+position = Vector2(-0.175, 6.85)
+shape = SubResource("RectangleShape2D_yx580")
+
+[connection signal="timeout" from="SpawnTimer" to="." method="OnSpawnTimerTimeout"]

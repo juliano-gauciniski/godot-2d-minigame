@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpiykjyeubyoh"]
+
+[ext_resource type="Script" path="res://Assets/Shared/Hurtbox/Hurtbox.cs" id="1_bqcow"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6vqcy"]
+
+[node name="Hurtbox" type="Area2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_bqcow")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6vqcy")
